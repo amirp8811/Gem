@@ -1,6 +1,9 @@
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
+const isProd = (process.env.NODE_ENV === 'production');
+const devExtraFontSrc = isProd ? [] : ['https://r2cdn.perplexity.ai'];
+
 // Comprehensive security headers
 const securityHeaders = helmet({
   // Content Security Policy
@@ -16,7 +19,8 @@ const securityHeaders = helmet({
       fontSrc: [
         "'self'", 
         "https://fonts.gstatic.com",
-        "https://cdnjs.cloudflare.com"
+        "https://cdnjs.cloudflare.com",
+        ...devExtraFontSrc
       ],
       scriptSrc: [
         "'self'",

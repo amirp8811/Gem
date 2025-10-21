@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { isDebugEnabled } from './config';
+import DebugOverlay from './components/DebugOverlay';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetail from './pages/ProductDetail';
@@ -13,6 +15,7 @@ import Contact from './pages/Contact';
 import './App.css';
 
 function App() {
+  const showDebug = isDebugEnabled();
   return (
     <AppProvider>
       <Router>
@@ -30,6 +33,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          {showDebug && <DebugOverlay />}
         </div>
       </Router>
     </AppProvider>

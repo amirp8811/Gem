@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../config/database');
 const { authenticateAdmin } = require('../middleware/auth');
 const { validationSchemas, validateId } = require('../middleware/validation');
+const { body } = require('express-validator');
 const { uploadConfigs } = require('../middleware/upload');
 const router = express.Router();
 

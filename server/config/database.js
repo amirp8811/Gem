@@ -13,7 +13,11 @@ db.raw('SELECT 1')
   })
   .catch((err) => {
     console.error('❌ Database connection failed:', err.message);
-    process.exit(1);
+    if ((process.env.NODE_ENV || 'development') === 'production') {
+      process.exit(1);
+    } else {
+      console.warn('Continuing without DB connection (development mode). Some routes may be unavailable.');
+    }
   });
 
 module.exports = db;

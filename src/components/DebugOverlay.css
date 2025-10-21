@@ -1,0 +1,10 @@
+.debug-overlay{position:fixed;right:12px;bottom:12px;z-index:2147483647;background:rgba(15,15,15,0.92);color:#eaeaea;border:1px solid #333;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.35);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+.debug-overlay .hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid #2a2a2a;font-size:12px;letter-spacing:.3px;background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0));}
+.debug-overlay .btn{background:#1f1f1f;border:1px solid #333;color:#ddd;border-radius:6px;font-size:11px;padding:4px 8px;cursor:pointer}
+.debug-overlay .btn:hover{background:#262626}
+.debug-overlay .body{padding:10px;max-width:320px;max-height:40vh;overflow:auto;font-size:12px;}
+.debug-overlay .row{display:flex;gap:8px;margin:4px 0}
+.debug-overlay .key{color:#9aa0a6;min-width:90px}
+.debug-overlay .ok{color:#22c55e}
+.debug-overlay .bad{color:#ef4444}
+.debug-overlay .warn{color:#eab308}

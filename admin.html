@@ -6,17 +6,40 @@
     <title>Gravity Admin Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23667eea'/%3E%3Cpath d='M32 14c9.94 0 18 8.06 18 18s-8.06 18-18 18S14 41.94 14 32 22.06 14 32 14zm0 6a12 12 0 100 24 12 12 0 000-24z' fill='white'/%3E%3C/svg%3E" />
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        :root {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --primary: #667eea;
+            --primary-2: #764ba2;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        [data-theme="dark"] {
+            --bg: #0b1220;
+            --card: #0f172a;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --primary: #6366f1;
+            --primary-2: #8b5cf6;
+            --border: #1f2937;
+            --success: #22c55e;
+            --danger: #f87171;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
         }
 
@@ -30,7 +53,7 @@
         }
 
         .login-box {
-            background: white;
+            background: var(--card);
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
@@ -107,7 +130,7 @@
 
         .sidebar {
             width: 280px;
-            background: white;
+            background: var(--card);
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             position: fixed;
             height: 100vh;
@@ -116,7 +139,7 @@
 
         .sidebar-header {
             padding: 30px 25px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--border);
         }
 
         .sidebar-header h2 {
@@ -141,9 +164,9 @@
 
         .nav-item:hover,
         .nav-item.active {
-            background: #f1f5f9;
-            color: #667eea;
-            border-right: 3px solid #667eea;
+            background: rgba(102, 126, 234, 0.12);
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
         }
 
         .nav-item i {
@@ -166,7 +189,7 @@
         .header h1 {
             font-size: 2rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text);
         }
 
         .user-menu {
@@ -177,7 +200,7 @@
 
         .logout-btn {
             padding: 8px 16px;
-            background: #ef4444;
+            background: var(--danger);
             color: white;
             border: none;
             border-radius: 8px;
@@ -199,11 +222,11 @@
         }
 
         .metric-card {
-            background: white;
+            background: var(--card);
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border);
         }
 
         .metric-card h3 {
@@ -237,10 +260,10 @@
         /* Content Sections */
         .content-section {
             display: none;
-            background: white;
+            background: var(--card);
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border);
         }
 
         .content-section.active {
@@ -249,7 +272,7 @@
 
         .section-header {
             padding: 25px 30px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -272,7 +295,7 @@
         }
 
         .btn-primary {
-            background: #667eea;
+            background: var(--primary);
             color: white;
         }
 
@@ -281,7 +304,7 @@
         }
 
         .btn-success {
-            background: #10b981;
+            background: var(--success);
             color: white;
         }
 
@@ -312,14 +335,22 @@
         th, td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--border);
         }
 
         th {
-            background: #f8fafc;
+            background: rgba(102, 126, 234, 0.06);
             font-weight: 600;
-            color: #374151;
+            color: var(--text);
         }
+        /* Loader */
+        .loader { display:none; padding:20px; text-align:center; color: var(--muted); }
+        .loader.show { display:block; }
+        .products-controls { display:flex; gap:12px; align-items:center; padding: 0 30px 10px; }
+        .products-controls input { padding:10px 12px; border:1px solid var(--border); border-radius:8px; background: var(--card); color: var(--text); }
+        .pagination { display:flex; gap:8px; align-items:center; padding:10px 30px 20px; color: var(--muted); }
+        .pagination button { padding:6px 10px; border:1px solid var(--border); background: var(--card); color: var(--text); border-radius:6px; cursor:pointer }
+        .pagination button:disabled { opacity:.5; cursor:not-allowed }
 
         .status-badge {
             padding: 4px 12px;
@@ -1439,11 +1470,15 @@
                 <h1 id="pageTitle">Dashboard</h1>
                 <div class="user-menu">
                     <span>Welcome, Admin</span>
+                    <button class="btn" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" style="border:1px solid var(--border); background: var(--card); color: var(--text);">🌓 Theme</button>
                     <button class="logout-btn" onclick="logout()">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
             </div>
+
+            <!-- Dynamic content mount for dashboard and sections -->
+            <div id="content"></div>
 
             <!-- Dashboard Section -->
             <div class="content-section active" id="dashboard">
@@ -1467,6 +1502,20 @@
                         <h3>Customers</h3>
                         <div class="metric-value">892</div>
                         <div class="metric-change positive">+23 new this week</div>
+                    </div>
+                    <div class="widget payments-test">
+                        <div class="widget-header">
+                            <h3><i class="fas fa-credit-card"></i> Payments (Sandbox)</h3>
+                            <button class="btn btn-primary" onclick="createTestCheckout()">Create Test Checkout</button>
+                        </div>
+                        <div class="widget-content" style="padding: 20px;">
+                            <div>Latest Session ID: <code id="stripeSessionId">N/A</code></div>
+                            <div>Status: <span id="stripePaymentStatus" class="status-badge">N/A</span></div>
+                            <div style="margin-top:10px; display:flex; gap:10px;">
+                                <button class="btn" onclick="refreshSessionStatus()" style="border:1px solid var(--border); background: var(--card); color: var(--text);">Refresh Status</button>
+                                <a id="stripeRedirect" class="btn btn-success" href="#" target="_blank" style="display:none; text-decoration:none;">Open Checkout</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1516,6 +1565,11 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="pagination">
+                    <button id="productsPrev" disabled>Prev</button>
+                    <span id="productsPage">1 / 1</span>
+                    <button id="productsNext" disabled>Next</button>
+                </div>
             </div>
 
             <!-- Products Section -->
@@ -1524,7 +1578,12 @@
                     <h2 class="section-title">Product Management</h2>
                     <button class="btn btn-success" onclick="showAddProduct()">Add New Product</button>
                 </div>
+                <div class="products-controls">
+                    <input id="productSearch" type="search" placeholder="Search products..." />
+                    <button class="btn btn-primary" onclick="onSearchProducts()">Search</button>
+                </div>
                 <div class="table-container">
+                    <div id="productsLoader" class="loader">Loading products...</div>
                     <table>
                         <thead>
                             <tr>
@@ -1643,6 +1702,8 @@
         <span>Secure Session Active</span>
     </div>
 
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <script>
         // 🔒 SECURE ADMIN PANEL CONFIGURATION
         const API_BASE = '/api';
@@ -1667,6 +1728,56 @@
                 warning: 'fas fa-exclamation-triangle',
                 info: 'fas fa-info-circle'
             };
+
+        // ===== Stripe Payments (Sandbox) =====
+        let lastStripeSession = { id: null, url: null };
+
+        async function createTestCheckout() {
+            try {
+                const res = await secureRequest(`${API_BASE}/payments/create-checkout-session`, {
+                    method: 'POST',
+                    body: JSON.stringify({})
+                });
+                if (!res || !res.ok) throw new Error('Failed to create session');
+                const data = await res.json();
+                lastStripeSession = { id: data.id, url: data.url };
+                document.getElementById('stripeSessionId').textContent = data.id || 'N/A';
+                const link = document.getElementById('stripeRedirect');
+                link.href = data.url || '#';
+                link.style.display = data.url ? 'inline-block' : 'none';
+                updatePaymentBadge('pending');
+            } catch (e) {
+                showError('Could not create Checkout Session');
+            }
+        }
+
+        async function refreshSessionStatus() {
+            try {
+                if (!lastStripeSession.id) return;
+                const res = await secureRequest(`${API_BASE}/payments/session/${lastStripeSession.id}`);
+                if (!res || !res.ok) return;
+                const data = await res.json();
+                // Map Stripe statuses to simple badges
+                // session.status: open | complete | expired
+                // payment_status: paid | unpaid | no_payment_required
+                if (data.status === 'complete' && data.payment_status === 'paid') {
+                    updatePaymentBadge('completed');
+                } else if (data.status === 'open') {
+                    updatePaymentBadge('pending');
+                } else {
+                    updatePaymentBadge('N/A');
+                }
+            } catch (e) {
+                console.error('Stripe status error', e);
+            }
+        }
+
+        function updatePaymentBadge(state) {
+            const el = document.getElementById('stripePaymentStatus');
+            if (!el) return;
+            el.className = 'status-badge ' + (state === 'completed' ? 'status-completed' : state === 'pending' ? 'status-pending' : '');
+            el.textContent = state.toUpperCase();
+        }
 
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -1758,35 +1869,30 @@
             return response;
         };
 
-        // Login function (standalone mode)
+        // Login function (backend)
         const login = async (username, password) => {
             try {
-                // Hardcoded credentials for demo
-                if (username === 'admin' && password === 'Gravity2024!@#') {
-                    // Store session info
-                    sessionStorage.setItem('adminUser', JSON.stringify({
-                        username: username,
-                        loginTime: Date.now(),
-                        lastActivity: Date.now()
-                    }));
-                    
-                    // Hide login screen and show admin panel
-                    document.getElementById('loginScreen').style.display = 'none';
-                    document.getElementById('adminPanel').style.display = 'flex';
-                    
-                    showSuccess('Login successful! Initializing secure session...', 'Welcome Admin');
-                    
-                    // Initialize security systems
-                    initializeSecurity();
-                    
-                    // Load dashboard with live metrics
-                    showDashboard();
-                } else {
-                    showError('Invalid credentials. Use admin / Gravity2024!@#');
-                }
+                const res = await secureRequest(`${API_BASE}/auth/admin/login`, {
+                    method: 'POST',
+                    body: JSON.stringify({ username, password })
+                });
+                if (!res || !res.ok) throw new Error('Invalid credentials');
+                const data = await res.json();
+                sessionStorage.setItem('adminUser', JSON.stringify({
+                    username: data?.user?.email || username,
+                    loginTime: Date.now(),
+                    lastActivity: Date.now()
+                }));
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'flex';
+                showSuccess('Login successful! Initializing secure session...', 'Welcome Admin');
+                initializeSecurity();
+                showDashboard();
+                loadDashboardData();
+                loadProducts();
             } catch (error) {
                 console.error('Login error:', error);
-                showError('Login failed due to an error. Please try again.');
+                showError('Invalid credentials');
             }
         };
 
@@ -2004,12 +2110,12 @@
 
         // Show dashboard function (enhanced with live metrics)
         function showDashboard() {
-            // Set dashboard as active
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            const dashboardNav = document.querySelector('[onclick="showDashboard()"]');
-            if (dashboardNav) dashboardNav.classList.add('active');
+          // Set dashboard as active
+          document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+          });
+          const dashboardNav = document.querySelector('[data-section="dashboard"]');
+          if (dashboardNav) dashboardNav.classList.add('active');
             
             // Start live metrics updates
             startLiveMetricsUpdates();
@@ -2684,6 +2790,39 @@
             }
         };
 
+        // Load products list
+        const loadProducts = async () => {
+            try {
+                const res = await secureRequest(`${API_BASE}/products?limit=50&order=desc&sort=created_at`);
+                if (!res || !res.ok) return;
+                const data = await res.json();
+                const rows = (data.products || []).map(p => {
+                    const status = p.is_active ? 'Active' : 'Inactive';
+                    const statusClass = p.is_active ? 'status-completed' : 'status-pending';
+                    return `
+                        <tr>
+                            <td>${p.id}</td>
+                            <td class="product-name-cell">
+                                <strong>${p.name}</strong>
+                                <p class="product-desc">${(p.short_description || '').toString().slice(0,120)}</p>
+                            </td>
+                            <td>${p.category_name || ''}</td>
+                            <td>$${Number(p.price || 0).toFixed(2)}</td>
+                            <td>${p.stock_quantity ?? ''}</td>
+                            <td><span class="status-badge ${statusClass}">${status}</span></td>
+                            <td>
+                                <button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">Edit</button>
+                                <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;">Delete</button>
+                            </td>
+                        </tr>`;
+                }).join('');
+                const tbody = document.getElementById('productsTable');
+                if (tbody) tbody.innerHTML = rows || '';
+            } catch (e) {
+                console.error('Failed to load products:', e);
+            }
+        };
+
         // Update dashboard with real data
         const updateDashboard = (data) => {
             if (data.success && data.metrics) {
@@ -2721,6 +2860,7 @@
                         // Session is valid, show admin panel
                         showAdminPanel();
                         loadDashboardData();
+                        loadProducts();
                     } else {
                         // Session invalid, clear storage
                         sessionStorage.clear();
@@ -2770,6 +2910,7 @@
         function showProducts() {
             showSection('products');
             document.getElementById('pageTitle').textContent = 'Product Management';
+            loadProducts();
         }
 
         // Product Form Submission

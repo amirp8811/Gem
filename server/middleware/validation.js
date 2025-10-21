@@ -1,14 +1,16 @@
 const { body, param, query, validationResult } = require('express-validator');
-const createDOMPurify = require('isomorphic-dompurify');
 const validator = require('validator');
 
-// Custom sanitizer for HTML content
+// Custom sanitizer for HTML content (server-safe, no DOM/JS)
 const sanitizeHtml = (value) => {
   if (typeof value !== 'string') return value;
-  return createDOMPurify.sanitize(value, {
-    ALLOWED_TAGS: [], // No HTML tags allowed
-    ALLOWED_ATTR: []
-  });
+  return value
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, '')
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 };
 
 // Custom validator for strong passwords
@@ -59,7 +61,7 @@ const handleValidationErrors = (req, res, next) => {
 
 // Common validation rules
 const commonValidations = {
-  email: body('email')
+  email: () => body('email')
     .isEmail()
     .normalizeEmail()
     .withMessage('Please provide a valid email address')
@@ -138,7 +140,7 @@ const commonValidations = {
 const validationSchemas = {
   // User registration
   userRegistration: [
-    commonValidations.email,
+    commonValidations.email(),
     commonValidations.password,
     commonValidations.name('first_name'),
     commonValidations.name('last_name'),
@@ -148,7 +150,7 @@ const validationSchemas = {
 
   // User login
   userLogin: [
-    commonValidations.email,
+    commonValidations.email(),
     body('password')
       .isLength({ min: 1 })
       .withMessage('Password is required'),
@@ -157,7 +159,7 @@ const validationSchemas = {
 
   // Password reset
   passwordReset: [
-    commonValidations.email,
+    commonValidations.email(),
     handleValidationErrors
   ],
 
@@ -356,7 +358,7 @@ const validationSchemas = {
       .withMessage('Customer name is required')
       .customSanitizer(sanitizeHtml),
     
-    commonValidations.email.clone().withMessage('Customer email is required'),
+    commonValidations.email().withMessage('Customer email is required'),
     
     handleValidationErrors
   ],
@@ -364,7 +366,7 @@ const validationSchemas = {
   // Contact form
   contact: [
     commonValidations.name('name'),
-    commonValidations.email,
+    commonValidations.email(),
     
     body('subject')
       .trim()
