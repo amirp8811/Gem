@@ -1,0 +1,44 @@
+# Ngrok Configuration for Gravity Jewelry
+version: "2"
+authtoken: YOUR_AUTH_TOKEN_HERE
+
+tunnels:
+  gravity-main:
+    proto: http
+    addr: 5000
+    subdomain: gravity-jewelry
+    host_header: "gravity-jewelry.local"
+    inspect: true
+    bind_tls: true
+    
+  gravity-admin:
+    proto: http
+    addr: 5000
+    subdomain: gravity-admin
+    basic_auth:
+      - "admin:Gravity2024!@#"
+    host_header: "gravity-admin.local"
+    inspect: true
+    
+  gravity-api:
+    proto: http
+    addr: 5000
+    subdomain: gravity-api
+    host_header: "gravity-api.local"
+    inspect: true
+    request_header:
+      add:
+        - "X-Forwarded-Proto: https"
+
+# Regional settings
+region: us
+
+# Web interface settings
+web_addr: localhost:4040
+log_level: info
+log_format: logfmt
+log: ./logs/ngrok.log
+
+# Console UI settings
+console_ui: true
+console_ui_color: auto

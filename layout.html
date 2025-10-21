@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gravity Jewelry - Exquisite handcrafted jewelry collection">
+    <meta name="keywords" content="jewelry, rings, necklaces, earrings, luxury, handcrafted">
+    <title>Gravity Jewelry - Luxury Handcrafted Jewelry</title>
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/assets/css/main.css" as="style">
+    <link rel="preload" href="/assets/js/app.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    
+    <!-- Critical CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Gravity Jewelry - Luxury Handcrafted Jewelry">
+    <meta property="og:description" content="Discover our exquisite collection of handcrafted jewelry">
+    <meta property="og:image" content="/assets/images/og-image.jpg">
+    <meta property="og:type" content="website">
+    
+    <!-- Performance Hints -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#ffdd44">
+</head>
+<body>
+    <!-- Skip to Content (Accessibility) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header -->
+    <header class="header" role="banner">
+        <nav class="nav container" role="navigation" aria-label="Main navigation">
+            <a href="/" class="logo" data-route aria-label="Gravity Jewelry Home">
+                🌌 Gravity
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-links" role="menubar">
+                <li role="none">
+                    <a href="/" data-route data-page="home" role="menuitem">Home</a>
+                </li>
+                <li role="none">
+                    <a href="/products" data-route data-page="products" role="menuitem">Products</a>
+                </li>
+                <li role="none">
+                    <a href="/categories" data-route data-page="categories" role="menuitem">Categories</a>
+                </li>
+                <li role="none">
+                    <a href="/about" data-route data-page="about" role="menuitem">About</a>
+                </li>
+                <li role="none">
+                    <a href="/contact" data-route data-page="contact" role="menuitem">Contact</a>
+                </li>
+            </ul>
+            
+            <!-- Cart & User Actions -->
+            <div class="nav-actions">
+                <button class="search-toggle" aria-label="Toggle search" title="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                
+                <a href="/cart" class="cart-link" data-route aria-label="Shopping cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count hidden">0</span>
+                </a>
+                
+                <button class="user-menu-toggle" aria-label="User menu" title="Account">
+                    <i class="fas fa-user"></i>
+                </button>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" title="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Search Bar (Hidden by default) -->
+        <div class="search-bar hidden" role="search">
+            <div class="container">
+                <form class="search-form">
+                    <input type="search" placeholder="Search jewelry..." aria-label="Search products">
+                    <button type="submit" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav hidden">
+            <div class="mobile-nav-content">
+                <ul class="mobile-nav-links">
+                    <li><a href="/" data-route>Home</a></li>
+                    <li><a href="/products" data-route>Products</a></li>
+                    <li><a href="/categories" data-route>Categories</a></li>
+                    <li><a href="/about" data-route>About</a></li>
+                    <li><a href="/contact" data-route>Contact</a></li>
+                    <li><a href="/cart" data-route>Cart (<span id="mobile-cart-count">0</span>)</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="main-content" role="main">
+        <!-- Page content will be loaded here -->
+        <div class="loading-container">
+            <div class="loading"></div>
+            <p>Loading...</p>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Gravity Jewelry</h3>
+                    <p>Crafting timeless pieces that capture the essence of elegance and sophistication.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/products" data-route>All Products</a></li>
+                        <li><a href="/categories" data-route>Categories</a></li>
+                        <li><a href="/about" data-route>About Us</a></li>
+                        <li><a href="/contact" data-route>Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="/shipping">Shipping Info</a></li>
+                        <li><a href="/returns">Returns</a></li>
+                        <li><a href="/sizing">Size Guide</a></li>
+                        <li><a href="/care">Care Instructions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe for exclusive offers and new arrivals</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Gravity Jewelry. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Cart Notification Template -->
+    <template id="cart-notification-template">
+        <div class="cart-notification">
+            <i class="fas fa-check-circle"></i>
+            <span class="message"></span>
+        </div>
+    </template>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="loading"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="/assets/js/app.js" defer></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+    
+    <!-- Performance Monitoring -->
+    <script>
+        // Monitor page load performance
+        window.addEventListener('load', () => {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+        });
+    </script>
+</body>
+</html>

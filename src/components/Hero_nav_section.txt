@@ -1,0 +1,15 @@
+      {/* Navigation */}
+      <nav className={`hero-nav ${!navVisible ? 'hidden' : ''} ${navMinimized ? 'minimized' : ''}`}>
+        <div className="nav-brand">
+        </div>
+        <div className="nav-links">
+          <Link to="/shop">Collections</Link>
+          <Link to="/about">About us</Link>
+          <Link to="/contact">Contact</Link>
+        </div>
+        <button className="menu-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>

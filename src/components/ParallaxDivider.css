@@ -1,0 +1,102 @@
+.parallax-divider {
+    height: 80vh;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(212, 175, 55, 0.3) 50%, rgba(0, 0, 0, 0.6) 100%),
+                url('https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=2000&q=80') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    will-change: background-position;
+}
+
+.parallax-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+    z-index: 1;
+}
+
+.parallax-content {
+    position: relative;
+    z-index: 2;
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+}
+
+.parallax-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.parallax-accent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: accent-pulse 4s ease-in-out infinite;
+    z-index: -1;
+}
+
+@keyframes accent-pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+/* Enhanced responsive design */
+@media (max-width: 1024px) {
+    .parallax-content h2 {
+        font-size: 4rem;
+        letter-spacing: 3px;
+    }
+}
+
+@media (max-width: 768px) {
+    .parallax-divider {
+        height: 60vh;
+    }
+    
+    .parallax-content h2 {
+        font-size: 3rem;
+        letter-spacing: 2px;
+        padding: 0 20px;
+    }
+    
+    .parallax-accent {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .parallax-content h2 {
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+    }
+}

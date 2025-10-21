@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gravity Jewelry - Exquisite handcrafted jewelry collection with fast loading and seamless navigation">
+    <meta name="keywords" content="jewelry, rings, necklaces, earrings, luxury, handcrafted, fast loading">
+    <title>Gravity Jewelry - Luxury Handcrafted Jewelry</title>
+    
+    <!-- Performance Optimizations -->
+    <link rel="preload" href="/assets/css/main.css" as="style">
+    <link rel="preload" href="/assets/js/app.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    
+    <!-- Critical CSS (Inlined for faster loading) -->
+    <style>
+        /* Critical above-the-fold styles */
+        :root {
+            --primary-color: #ffdd44;
+            --text-primary: #1a202c;
+            --bg-primary: #fefefe;
+            --transition-fast: 0.2s ease;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+        
+        .header {
+            background: var(--bg-primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+            gap: 1rem;
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 1001;
+        }
+        
+        .skip-link:focus {
+            top: 6px;
+        }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/assets/css/main.css"></noscript>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Three.js for 3D Models -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#d4af37">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Gravity Jewelry - Luxury Handcrafted Jewelry">
+    <meta property="og:description" content="Fast-loading jewelry marketplace with seamless navigation">
+    <meta property="og:image" content="/assets/images/og-image.jpg">
+    <meta property="og:type" content="website">
+    
+    <!-- Performance Hints -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <!-- Skip Navigation -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header -->
+    <header class="header" role="banner">
+        <nav class="nav" role="navigation" aria-label="Main navigation">
+            <a href="/" class="logo" data-route aria-label="Gravity Jewelry Home">
+                🌌 Gravity
+            </a>
+            
+            <!-- Navigation will be enhanced by JavaScript -->
+            <div class="nav-placeholder">
+                <div class="loading"></div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="main-content" role="main">
+        <!-- Initial Loading State -->
+        <div class="loading-container">
+            <div class="loading"></div>
+            <p>Loading Gravity Jewelry...</p>
+        </div>
+    </main>
+    
+    <!-- Footer Placeholder -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-placeholder">
+            <div class="loading"></div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+        // Performance monitoring
+        const perfStart = performance.now();
+        
+        // Critical JavaScript for immediate functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded in:', performance.now() - perfStart, 'ms');
+        });
+        
+        // Load main application
+        const script = document.createElement('script');
+        script.src = '/assets/js/app.js';
+        script.defer = true;
+        document.head.appendChild(script);
+        
+        // Scroll to top on page load
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
+        
+        // Service Worker registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('SW registered'))
+                    .catch(err => console.log('SW registration failed'));
+            });
+        }
+        
+        // Performance observer
+        if ('PerformanceObserver' in window) {
+            const observer = new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (entry.entryType === 'navigation') {
+                        console.log('Page Load Time:', entry.loadEventEnd - entry.fetchStart, 'ms');
+                    }
+                }
+            });
+            observer.observe({ entryTypes: ['navigation'] });
+        }
+        
+        // Error handling
+        window.addEventListener('error', (e) => {
+            console.error('Global error:', e.error);
+        });
+        
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled promise rejection:', e.reason);
+        });
+    </script>
+    
+    <!-- Analytics (Non-blocking) -->
+    <script async>
+        // Add your analytics code here
+        // Google Analytics, etc.
+    </script>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravity Admin Panel - Secure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Same CSS as original admin.html but with security improvements -->
+    <style>
+        /* Include all the original CSS styles here */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* All the existing styles from admin.html */
+        .login-container {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .admin-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        /* Include all other admin panel styles from the original file */
+        /* ... (truncated for brevity, but include all styles) ... */
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>🌌 Gravity Admin</h1>
+                <p>Secure access to your jewelry marketplace</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Email</label>
+                    <input type="email" id="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required autocomplete="current-password">
+                </div>
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+                <button type="submit" class="login-btn" id="loginButton">
+                    <i class="fas fa-sign-in-alt"></i> Secure Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-container" id="adminPanel">
+        <!-- Include all the admin panel HTML from the original file -->
+        <!-- ... (truncated for brevity) ... -->
+    </div>
+
+    <script>
+        // 🔒 SECURE ADMIN PANEL JAVASCRIPT
+        
+        // Configuration
+        const API_BASE = '/api';
+        let csrfToken = null;
+        let sessionTimeout;
+        const SESSION_DURATION = 30 * 60 * 1000; // 30 minutes
+
+        // Utility functions
+        const showError = (message) => {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+            }, 5000);
+        };
+
+        const showSuccess = (message) => {
+            const successEl = document.getElementById('successMessage');
+            successEl.textContent = message;
+            successEl.style.display = 'block';
+            setTimeout(() => {
+                successEl.style.display = 'none';
+            }, 3000);
+        };
+
+        // Get CSRF token
+        const getCsrfToken = async () => {
+            try {
+                const response = await fetch(`${API_BASE}/auth/csrf-token`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                csrfToken = data.csrfToken;
+            } catch (error) {
+                console.error('Failed to get CSRF token:', error);
+            }
+        };
+
+        // Secure API request wrapper
+        const secureRequest = async (url, options = {}) => {
+            const defaultOptions = {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(csrfToken && { 'X-CSRF-Token': csrfToken }),
+                    ...options.headers
+                }
+            };
+
+            const response = await fetch(url, { ...defaultOptions, ...options });
+            
+            if (response.status === 401) {
+                // Unauthorized - redirect to login
+                logout();
+                return null;
+            }
+
+            if (response.status === 403) {
+                // CSRF token might be invalid
+                await getCsrfToken();
+                throw new Error('Request failed - please try again');
+            }
+
+            return response;
+        };
+
+        // Secure login function
+        const login = async (email, password) => {
+            try {
+                const loginButton = document.getElementById('loginButton');
+                loginButton.disabled = true;
+                loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
+                // Get CSRF token first
+                await getCsrfToken();
+
+                const response = await secureRequest(`${API_BASE}/auth/admin/login`, {
+                    method: 'POST',
+                    body: JSON.stringify({ username: email, password })
+                });
+
+                if (!response) return;
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess('Login successful!');
+                    
+                    // Store user info (not sensitive data)
+                    sessionStorage.setItem('adminUser', JSON.stringify({
+                        id: data.user.id,
+                        email: data.user.email,
+                        role: data.user.role
+                    }));
+                    
+                    // Hide login screen and show admin panel
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                    
+                    // Start session monitoring
+                    startSessionMonitoring();
+                    
+                    // Load dashboard data
+                    loadDashboardData();
+                } else {
+                    showError(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('Login failed. Please try again.');
+            } finally {
+                const loginButton = document.getElementById('loginButton');
+                loginButton.disabled = false;
+                loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Secure Login';
+            }
+        };
+
+        // Secure logout function
+        const logout = async () => {
+            try {
+                await secureRequest(`${API_BASE}/auth/admin/logout`, {
+                    method: 'POST'
+                });
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                // Clear session data
+                sessionStorage.clear();
+                clearTimeout(sessionTimeout);
+                
+                // Reset UI
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('loginForm').reset();
+                
+                // Clear CSRF token
+                csrfToken = null;
+            }
+        };
+
+        // Session monitoring
+        const startSessionMonitoring = () => {
+            clearTimeout(sessionTimeout);
+            
+            // Auto-logout after session duration
+            sessionTimeout = setTimeout(() => {
+                showError('Session expired. Please login again.');
+                logout();
+            }, SESSION_DURATION);
+        };
+
+        // Activity monitoring for session refresh
+        let lastActivity = Date.now();
+        
+        const updateActivity = () => {
+            lastActivity = Date.now();
+            startSessionMonitoring(); // Refresh session timeout
+        };
+
+        // Monitor user activity
+        ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
+            document.addEventListener(event, updateActivity, true);
+        });
+
+        // Check for inactivity every minute
+        setInterval(() => {
+            if (Date.now() - lastActivity > 15 * 60 * 1000) { // 15 minutes
+                showError('Logged out due to inactivity.');
+                logout();
+            }
+        }, 60000);
+
+        // Load dashboard data securely
+        const loadDashboardData = async () => {
+            try {
+                const response = await secureRequest(`${API_BASE}/admin/dashboard`);
+                if (response && response.ok) {
+                    const data = await response.json();
+                    updateDashboard(data);
+                }
+            } catch (error) {
+                console.error('Failed to load dashboard data:', error);
+            }
+        };
+
+        // Update dashboard with real data
+        const updateDashboard = (data) => {
+            // Update metrics with real data from API
+            if (data.metrics) {
+                // Update revenue, orders, products, customers, etc.
+                // This would replace the static data in the original admin panel
+            }
+        };
+
+        // Form submission handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                showError('Please enter both email and password');
+                return;
+            }
+            
+            await login(email, password);
+        });
+
+        // Check if already logged in on page load
+        window.addEventListener('load', async () => {
+            const adminUser = sessionStorage.getItem('adminUser');
+            
+            if (adminUser) {
+                try {
+                    // Verify session is still valid
+                    const response = await secureRequest(`${API_BASE}/auth/verify`);
+                    
+                    if (response && response.ok) {
+                        // Session is valid, show admin panel
+                        document.getElementById('loginScreen').style.display = 'none';
+                        document.getElementById('adminPanel').style.display = 'block';
+                        startSessionMonitoring();
+                        loadDashboardData();
+                    } else {
+                        // Session invalid, clear storage
+                        sessionStorage.clear();
+                    }
+                } catch (error) {
+                    // Error verifying session, clear storage
+                    sessionStorage.clear();
+                }
+            }
+            
+            // Get CSRF token for future requests
+            await getCsrfToken();
+        });
+
+        // Prevent common attacks
+        
+        // Disable right-click context menu in production
+        if (window.location.hostname !== 'localhost') {
+            document.addEventListener('contextmenu', e => e.preventDefault());
+        }
+        
+        // Disable F12 and other dev tools shortcuts in production
+        if (window.location.hostname !== 'localhost') {
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                    (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+                    (e.ctrlKey && e.key === 'U')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        }
+
+        // Detect if developer tools are open (basic detection)
+        let devtools = {
+            open: false,
+            orientation: null
+        };
+        
+        setInterval(() => {
+            if (window.outerHeight - window.innerHeight > 200 || 
+                window.outerWidth - window.innerWidth > 200) {
+                if (!devtools.open) {
+                    devtools.open = true;
+                    console.clear();
+                    console.log('%cSecurity Notice', 'color: red; font-size: 20px; font-weight: bold;');
+                    console.log('%cThis is a secure admin panel. Unauthorized access is prohibited.', 'color: red; font-size: 14px;');
+                }
+            } else {
+                devtools.open = false;
+            }
+        }, 500);
+
+        // Additional security measures
+        
+        // Prevent iframe embedding
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+        
+        // Clear sensitive data on page unload
+        window.addEventListener('beforeunload', () => {
+            // Clear any sensitive data from memory
+            csrfToken = null;
+        });
+        
+        // Implement Content Security Policy reporting
+        document.addEventListener('securitypolicyviolation', (e) => {
+            console.error('CSP Violation:', e.violatedDirective, e.blockedURI);
+            // In production, report this to your security monitoring system
+        });
+
+    </script>
+</body>
+</html>
